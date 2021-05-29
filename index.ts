@@ -41,7 +41,7 @@ const D_MINUS_ONE_SQ = 404408343463085368581010424693231908262483991462387083522
 // Extended Point works in extended coordinates: (x, y, z, t) ∋ (x=x/z, y=y/z, t=xy)
 // https://en.wikipedia.org/wiki/Twisted_Edwards_curve#Extended_coordinates
 class ExtendedPoint {
-  constructor(public x: bigint, public y: bigint, public z: bigint, public t: bigint) {}
+  constructor(public x: bigint, public y: bigint, public z: bigint, public t: bigint) { }
 
   static BASE = new ExtendedPoint(CURVE.Gx, CURVE.Gy, 1n, mod(CURVE.Gx * CURVE.Gy));
   static ZERO = new ExtendedPoint(0n, 1n, 1n, 0n);
@@ -341,7 +341,7 @@ class Point {
   // stores precomputed values. Usually only base point would be precomputed.
   _WINDOW_SIZE?: number;
 
-  constructor(public x: bigint, public y: bigint) {}
+  constructor(public x: bigint, public y: bigint) { }
 
   // "Private method", don't use it directly.
   _setWindowSize(windowSize: number) {
@@ -447,7 +447,7 @@ class Point {
 }
 
 class Signature {
-  constructor(public r: Point, public s: bigint) {}
+  constructor(public r: Point, public s: bigint) { }
 
   static fromHex(hex: Hex) {
     hex = ensureBytes(hex);
@@ -628,7 +628,7 @@ function pow_2_252_3(x: bigint): bigint {
 
 // Ratio of u to v. Allows us to combine inversion and square root. Uses algo from RFC8032 5.1.3.
 // prettier-ignore
-function uvRatio(u: bigint, v: bigint): {isValid: boolean, value: bigint} {
+function uvRatio(u: bigint, v: bigint): { isValid: boolean, value: bigint } {
   const v3 = mod(v * v * v);                  // v^3
   const v7 = mod(v3 * v3 * v);                // v^7
   let x = mod(u * v3 * pow_2_252_3(u * v7));  // (uv^3) * (uv^7)^(p-5)/8
@@ -693,7 +693,7 @@ function isWithinCurveOrder(num: bigint): boolean {
 function normalizePrivateKey(key: PrivKey): Uint8Array {
   let num: bigint;
   if (typeof key === 'bigint' || (Number.isSafeInteger(key) && key > 0)) {
-    num = BigInt(key);
+    num = BigInt(key as bigint);
     key = num.toString(16).padStart(B32 * 2, '0');
   }
   if (typeof key === 'string') {

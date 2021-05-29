@@ -230,7 +230,7 @@ sodium-native#sign x 58,661 ops/sec @ 17μs/op
 
 1. Clone the repository.
 2. `npm install` to install build dependencies like TypeScript
-3. `npm run compile` to compile TypeScript code
+3. `npm run build` to compile TypeScript code
 4. `npm run test` to run jest on `test/index.ts`
 
 ## License
